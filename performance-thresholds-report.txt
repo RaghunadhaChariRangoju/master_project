@@ -1,0 +1,159 @@
+AG HANDLOOM E-COMMERCE PERFORMANCE THRESHOLD REPORT
+=======================================================
+
+SUMMARY
+-------
+This report identifies the key performance thresholds where the AG Handloom e-commerce application might experience failures or significant degradation.
+
+CRITICAL FAILURE THRESHOLDS
+--------------------------
+These thresholds indicate points where the application will likely fail:
+
+1. SERVER THRESHOLDS:
+   - Max Response Time: 2000ms
+   - Max Concurrent Requests: 200
+   - Memory Usage Limit: 512MB
+   - CPU Usage Limit: 85%
+   - Database Connection Limit: 100
+   - Database Query Timeout: 1000ms
+   - Session Limit: 500
+
+2. CLIENT THRESHOLDS:
+   - JS Bundle Size Limit: 2048KB
+   - Initial Load Time Limit: 3000ms
+   - Interaction Response Limit: 100ms
+   - Minimum Animation FPS: 45
+   - Layout Shift Threshold: 0.1
+   - Largest Contentful Paint: 2500ms
+   - First Input Delay: 100ms
+
+3. NETWORK THRESHOLDS:
+   - Minimum Bandwidth: 1000Kbps
+   - Maximum Latency: 300ms
+   - Image Size Limit: 200KB
+   - Total Page Size Limit: 3000KB
+   - CDN Response Time Limit: 150ms
+
+4. E-COMMERCE SPECIFIC THRESHOLDS:
+   - Checkout Flow Time Limit: 5000ms
+   - Product Listing Render Limit: 50 products
+   - Cart Update Response Time: 500ms
+   - Payment Processing Timeout: 8000ms
+   - Inventory Check Timeout: 1000ms
+
+KEY FAILURE SCENARIOS
+-------------------
+1. API Server Overload
+   Threshold: 200 concurrent requests
+   Impact: Severe - Users experience timeouts, failed transactions, and eventual system unavailability
+   Early Indicators: Response times increasing beyond 1000ms, increased error rates above 2%
+   Mitigation: Implement rate limiting, API request caching, and consider horizontal scaling
+
+2. Client-Side Rendering Failure
+   Threshold: 50 products
+   Impact: High - Browser becomes unresponsive, high memory usage, potential crash on mobile devices
+   Early Indicators: Page load time increases linearly with product count, scrolling becomes choppy
+   Mitigation: Implement virtualization for product listings, pagination, or infinite scroll with proper cleanup
+
+3. Checkout Process Timeout
+   Threshold: 8000ms
+   Impact: Critical - Abandoned carts, lost sales, and customer frustration
+   Early Indicators: Increasing percentage of incomplete transactions, customer support inquiries about payment issues
+   Mitigation: Implement asynchronous payment processing, clear status updates, and retry mechanisms
+
+4. Bundle Size Threshold Exceeded
+   Threshold: 2048KB
+   Impact: High - Dramatically increased bounce rates, especially on mobile devices and in regions with slower internet
+   Early Indicators: First Contentful Paint and Time To Interactive metrics increasing, Google PageSpeed score degrading
+   Mitigation: Implement code splitting, tree shaking, lazy loading, and optimize third-party dependencies
+
+5. Database Connection Exhaustion
+   Threshold: 100 connections
+   Impact: Severe - New requests queue up and eventually time out, system becomes unresponsive
+   Early Indicators: Increasing query times, intermittent database errors, connection pool warnings in logs
+   Mitigation: Optimize connection pooling, implement query caching, and refactor inefficient query patterns
+
+6. Memory Leak Leading to Service Crash
+   Threshold: 512MB and increasing
+   Impact: Critical - Server crashes, requiring restart and potential data loss or corruption
+   Early Indicators: Steadily increasing memory usage without corresponding increase in traffic, performance degradation over time
+   Mitigation: Identify and fix memory leaks, implement proper resource cleanup, add memory monitoring and alerts
+
+7. Cache Invalidation Cascade
+   Threshold: N/A - Event-based scenario
+   Impact: High - Temporary system slowdown, potential database overload
+   Early Indicators: Spike in database queries following product updates, cache hit ratio dropping suddenly
+   Mitigation: Implement staggered cache invalidation, cache warming strategies, and circuit breakers
+
+
+PERFORMANCE SCALING WITH USER LOAD
+--------------------------------
+User Load | Response Time | CPU | Memory | Network
+50 users | 300ms | 25% | 128MB | 5Mbps
+100 users | 500ms | 40% | 256MB | 10Mbps
+250 users | 800ms | 65% | 384MB | 25Mbps
+500 users | 1500ms | 80% | 480MB | 50Mbps
+1000 users | 2500ms ⚠️ | 95% ⚠️ | 550MB ⚠️ | 100Mbps ⚠️ THRESHOLD EXCEEDED - SYSTEM LIKELY TO FAIL
+
+CRITICAL ENDPOINTS AND THEIR THRESHOLDS
+-------------------------------------
+1. /api/products
+   Max Response Time: 500ms
+   Cacheable: Yes
+   Failure Impact: Medium - Product browsing degraded
+
+2. /api/cart
+   Max Response Time: 400ms
+   Cacheable: No
+   Failure Impact: High - Unable to modify cart
+
+3. /api/checkout
+   Max Response Time: 800ms
+   Cacheable: No
+   Failure Impact: Critical - Unable to complete purchases
+
+4. /api/user/profile
+   Max Response Time: 600ms
+   Cacheable: No
+   Failure Impact: Medium - User account features unavailable
+
+5. /api/orders
+   Max Response Time: 700ms
+   Cacheable: No
+   Failure Impact: Medium-High - Order history unavailable
+
+
+IDENTIFIED BOTTLENECKS
+--------------------
+1. Database Queries: N+1 query pattern in product listing with attributes
+   Threshold: 50 products with attributes
+   Impact: Response time increases exponentially with product count
+   Recommendation: Implement eager loading and optimize query patterns
+
+2. Image Loading: High-resolution images not properly sized for different devices
+   Threshold: 200KB per image
+   Impact: Page load time increases significantly, bandwidth usage spikes
+   Recommendation: Implement responsive images, proper sizing, and lazy loading
+
+3. Client-Side Rendering: Heavy component tree re-rendering on cart updates
+   Threshold: 10+ items in cart
+   Impact: UI becomes sluggish, especially on mobile devices
+   Recommendation: Implement memoization, optimize render cycles, consider component splitting
+
+4. API Response Size: Overfetching data in product API responses
+   Threshold: 100KB response size
+   Impact: Bandwidth waste, increased parse time on client
+   Recommendation: Implement GraphQL or specific endpoint variations for different use cases
+
+
+KEY RECOMMENDATIONS
+-----------------
+1. Implement comprehensive monitoring with alerts set at 80% of threshold values
+2. Conduct regular load testing to verify system performance under peak conditions
+3. Add circuit breakers for critical external service dependencies
+4. Implement graceful degradation for non-critical features under high load
+5. Optimize image delivery using responsive images and a CDN
+6. Consider server-side rendering for initial page load performance
+7. Implement client-side caching for frequently accessed data
+
+Report Generated: 3/4/2025, 11:18:34 am

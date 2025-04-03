@@ -1,0 +1,205 @@
+{
+  "title": "AG Handloom E-commerce Performance Threshold Report",
+  "generatedAt": "2025-04-03T05:48:34.344Z",
+  "summary": "This report identifies the key performance thresholds where the AG Handloom e-commerce application might experience failures or significant degradation.",
+  "thresholds": {
+    "SERVER": {
+      "MAX_RESPONSE_TIME_MS": 2000,
+      "MAX_CONCURRENT_REQUESTS": 200,
+      "MAX_MEMORY_USAGE_MB": 512,
+      "MAX_CPU_USAGE_PERCENT": 85,
+      "DATABASE_CONNECTION_LIMIT": 100,
+      "DATABASE_QUERY_TIMEOUT_MS": 1000,
+      "SESSION_LIMIT": 500
+    },
+    "CLIENT": {
+      "BUNDLE_SIZE_LIMIT_KB": 2048,
+      "INITIAL_LOAD_TIME_MS": 3000,
+      "INTERACTION_RESPONSE_TIME_MS": 100,
+      "ANIMATION_FPS_MIN": 45,
+      "LAYOUT_SHIFT_THRESHOLD": 0.1,
+      "LARGEST_CONTENTFUL_PAINT_MS": 2500,
+      "FIRST_INPUT_DELAY_MS": 100
+    },
+    "NETWORK": {
+      "MIN_BANDWIDTH_KBPS": 1000,
+      "MAX_LATENCY_MS": 300,
+      "IMAGE_SIZE_LIMIT_KB": 200,
+      "TOTAL_PAGE_SIZE_LIMIT_KB": 3000,
+      "CDN_RESPONSE_TIME_MS": 150
+    },
+    "ECOMMERCE": {
+      "CHECKOUT_FLOW_MAX_TIME_MS": 5000,
+      "PRODUCT_LISTING_RENDER_LIMIT": 50,
+      "CART_UPDATE_RESPONSE_TIME_MS": 500,
+      "PAYMENT_PROCESSING_TIMEOUT_MS": 8000,
+      "INVENTORY_CHECK_TIMEOUT_MS": 1000
+    }
+  },
+  "failureScenarios": [
+    {
+      "name": "API Server Overload",
+      "description": "When concurrent API requests exceed the threshold of 200, the server starts to slow down dramatically, with response times increasing exponentially.",
+      "threshold": "200 concurrent requests",
+      "impact": "Severe - Users experience timeouts, failed transactions, and eventual system unavailability",
+      "earlyIndicators": "Response times increasing beyond 1000ms, increased error rates above 2%",
+      "mitigation": "Implement rate limiting, API request caching, and consider horizontal scaling"
+    },
+    {
+      "name": "Client-Side Rendering Failure",
+      "description": "When product listing attempts to render more than the threshold number of products simultaneously",
+      "threshold": "50 products",
+      "impact": "High - Browser becomes unresponsive, high memory usage, potential crash on mobile devices",
+      "earlyIndicators": "Page load time increases linearly with product count, scrolling becomes choppy",
+      "mitigation": "Implement virtualization for product listings, pagination, or infinite scroll with proper cleanup"
+    },
+    {
+      "name": "Checkout Process Timeout",
+      "description": "When payment processing exceeds the timeout threshold due to third-party payment service delays",
+      "threshold": "8000ms",
+      "impact": "Critical - Abandoned carts, lost sales, and customer frustration",
+      "earlyIndicators": "Increasing percentage of incomplete transactions, customer support inquiries about payment issues",
+      "mitigation": "Implement asynchronous payment processing, clear status updates, and retry mechanisms"
+    },
+    {
+      "name": "Bundle Size Threshold Exceeded",
+      "description": "When JS bundle size exceeds 2MB, causing significant load time issues on mobile and slower connections",
+      "threshold": "2048KB",
+      "impact": "High - Dramatically increased bounce rates, especially on mobile devices and in regions with slower internet",
+      "earlyIndicators": "First Contentful Paint and Time To Interactive metrics increasing, Google PageSpeed score degrading",
+      "mitigation": "Implement code splitting, tree shaking, lazy loading, and optimize third-party dependencies"
+    },
+    {
+      "name": "Database Connection Exhaustion",
+      "description": "When concurrent database connections reach the limit due to inefficient connection pooling or query patterns",
+      "threshold": "100 connections",
+      "impact": "Severe - New requests queue up and eventually time out, system becomes unresponsive",
+      "earlyIndicators": "Increasing query times, intermittent database errors, connection pool warnings in logs",
+      "mitigation": "Optimize connection pooling, implement query caching, and refactor inefficient query patterns"
+    },
+    {
+      "name": "Memory Leak Leading to Service Crash",
+      "description": "When server memory usage continuously grows with usage until hitting the system limit",
+      "threshold": "512MB and increasing",
+      "impact": "Critical - Server crashes, requiring restart and potential data loss or corruption",
+      "earlyIndicators": "Steadily increasing memory usage without corresponding increase in traffic, performance degradation over time",
+      "mitigation": "Identify and fix memory leaks, implement proper resource cleanup, add memory monitoring and alerts"
+    },
+    {
+      "name": "Cache Invalidation Cascade",
+      "description": "When a high-traffic product update triggers widespread cache invalidation, causing a surge in database queries",
+      "threshold": "N/A - Event-based scenario",
+      "impact": "High - Temporary system slowdown, potential database overload",
+      "earlyIndicators": "Spike in database queries following product updates, cache hit ratio dropping suddenly",
+      "mitigation": "Implement staggered cache invalidation, cache warming strategies, and circuit breakers"
+    }
+  ],
+  "loadScaling": [
+    {
+      "concurrentUsers": 50,
+      "expectedResponseTimeMs": 300,
+      "cpuUtilizationPercent": 25,
+      "memoryUsageMB": 128,
+      "networkBandwidthMbps": 5
+    },
+    {
+      "concurrentUsers": 100,
+      "expectedResponseTimeMs": 500,
+      "cpuUtilizationPercent": 40,
+      "memoryUsageMB": 256,
+      "networkBandwidthMbps": 10
+    },
+    {
+      "concurrentUsers": 250,
+      "expectedResponseTimeMs": 800,
+      "cpuUtilizationPercent": 65,
+      "memoryUsageMB": 384,
+      "networkBandwidthMbps": 25
+    },
+    {
+      "concurrentUsers": 500,
+      "expectedResponseTimeMs": 1500,
+      "cpuUtilizationPercent": 80,
+      "memoryUsageMB": 480,
+      "networkBandwidthMbps": 50
+    },
+    {
+      "concurrentUsers": 1000,
+      "expectedResponseTimeMs": 2500,
+      "cpuUtilizationPercent": 95,
+      "memoryUsageMB": 550,
+      "networkBandwidthMbps": 100
+    }
+  ],
+  "criticalEndpoints": [
+    {
+      "endpoint": "/api/products",
+      "maxResponseTimeMs": 500,
+      "cacheable": true,
+      "failureImpact": "Medium - Product browsing degraded"
+    },
+    {
+      "endpoint": "/api/cart",
+      "maxResponseTimeMs": 400,
+      "cacheable": false,
+      "failureImpact": "High - Unable to modify cart"
+    },
+    {
+      "endpoint": "/api/checkout",
+      "maxResponseTimeMs": 800,
+      "cacheable": false,
+      "failureImpact": "Critical - Unable to complete purchases"
+    },
+    {
+      "endpoint": "/api/user/profile",
+      "maxResponseTimeMs": 600,
+      "cacheable": false,
+      "failureImpact": "Medium - User account features unavailable"
+    },
+    {
+      "endpoint": "/api/orders",
+      "maxResponseTimeMs": 700,
+      "cacheable": false,
+      "failureImpact": "Medium-High - Order history unavailable"
+    }
+  ],
+  "identifiedBottlenecks": [
+    {
+      "area": "Database Queries",
+      "issue": "N+1 query pattern in product listing with attributes",
+      "threshold": "50 products with attributes",
+      "impact": "Response time increases exponentially with product count",
+      "recommendation": "Implement eager loading and optimize query patterns"
+    },
+    {
+      "area": "Image Loading",
+      "issue": "High-resolution images not properly sized for different devices",
+      "threshold": "200KB per image",
+      "impact": "Page load time increases significantly, bandwidth usage spikes",
+      "recommendation": "Implement responsive images, proper sizing, and lazy loading"
+    },
+    {
+      "area": "Client-Side Rendering",
+      "issue": "Heavy component tree re-rendering on cart updates",
+      "threshold": "10+ items in cart",
+      "impact": "UI becomes sluggish, especially on mobile devices",
+      "recommendation": "Implement memoization, optimize render cycles, consider component splitting"
+    },
+    {
+      "area": "API Response Size",
+      "issue": "Overfetching data in product API responses",
+      "threshold": "100KB response size",
+      "impact": "Bandwidth waste, increased parse time on client",
+      "recommendation": "Implement GraphQL or specific endpoint variations for different use cases"
+    }
+  ],
+  "recommendations": [
+    "Implement comprehensive monitoring with alerts set at 80% of threshold values",
+    "Conduct regular load testing to verify system performance under peak conditions",
+    "Add circuit breakers for critical external service dependencies",
+    "Implement graceful degradation for non-critical features under high load",
+    "Optimize image delivery using responsive images and a CDN",
+    "Consider server-side rendering for initial page load performance",
+    "Implement client-side caching for frequently accessed data"
+  ]
+}

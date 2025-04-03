@@ -1,0 +1,209 @@
+{
+  "summary": {
+    "totalRequests": 1200,
+    "failedRequests": 0,
+    "avgResponseTime": 62.31149641666661,
+    "maxResponseTime": 522.1281000000017,
+    "minResponseTime": 10.05319999999847
+  },
+  "endpoints": {
+    "/api/products": {
+      "url": "http://localhost:3001/api/products",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 6973.7535999999955,
+      "maxTime": 119.19800000000001,
+      "minTime": 35.35249999999999,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 69.73753599999995
+    },
+    "/api/products/featured": {
+      "url": "http://localhost:3001/api/products/featured",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 7116.037500000002,
+      "maxTime": 96.03739999999925,
+      "minTime": 43.84160000000065,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 71.16037500000002
+    },
+    "/api/categories": {
+      "url": "http://localhost:3001/api/categories",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 5367.4288,
+      "maxTime": 95.71810000000005,
+      "minTime": 23.593699999999444,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 53.674288
+    },
+    "/api/cart": {
+      "url": "http://localhost:3001/api/cart",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 14718.89490000002,
+      "maxTime": 522.1281000000017,
+      "minTime": 36.15060000000085,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 147.1889490000002
+    },
+    "/api/checkout": {
+      "url": "http://localhost:3001/api/checkout",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 6719.367000000002,
+      "maxTime": 141.7033999999985,
+      "minTime": 22.15179999999964,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 67.19367000000003
+    },
+    "/api/user/profile": {
+      "url": "http://localhost:3001/api/user/profile",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 3531.8007,
+      "maxTime": 53.40799999999945,
+      "minTime": 22.132500000003347,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 35.318006999999994
+    },
+    "/": {
+      "url": "http://localhost:3001/",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 2339.1711999999934,
+      "maxTime": 36.11279999999897,
+      "minTime": 10.05319999999847,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 23.391711999999934
+    },
+    "/products": {
+      "url": "http://localhost:3001/products",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 4663.357299999996,
+      "maxTime": 65.0422000000035,
+      "minTime": 33.4036999999953,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 46.63357299999996
+    },
+    "/products/1": {
+      "url": "http://localhost:3001/products/1",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 3894.545399999959,
+      "maxTime": 58.78040000000328,
+      "minTime": 21.783400000000256,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 38.94545399999959
+    },
+    "/cart": {
+      "url": "http://localhost:3001/cart",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 4927.264999999985,
+      "maxTime": 118.57289999999921,
+      "minTime": 28.6420000000071,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 49.27264999999985
+    },
+    "/checkout": {
+      "url": "http://localhost:3001/checkout",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 9741.515999999981,
+      "maxTime": 294.03289999999834,
+      "minTime": 41.85149999999703,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 97.41515999999982
+    },
+    "/profile": {
+      "url": "http://localhost:3001/profile",
+      "requests": 100,
+      "failures": 0,
+      "totalTime": 4780.6582999999955,
+      "maxTime": 83.37460000000283,
+      "minTime": 30.208599999998114,
+      "responseStatus": {
+        "200": 100
+      },
+      "performanceCategory": "OPTIMAL",
+      "avgTime": 47.806582999999954
+    }
+  },
+  "clientMetrics": {
+    "totalJsBundleSizeKB": "1435.47",
+    "largestJsFileKB": "1051.24",
+    "largestJsFileName": "index-CA3KWnbs.js",
+    "bundleStatus": "OK"
+  },
+  "serverMetrics": {
+    "memoryUsageMB": "6.33",
+    "estimatedConcurrentUsers": 0,
+    "memoryStatus": "OK"
+  },
+  "thresholds": {
+    "API_RESPONSE": {
+      "OPTIMAL": 200,
+      "ACCEPTABLE": 500,
+      "DEGRADED": 1000,
+      "CRITICAL": 2000
+    },
+    "PAGE_LOAD": {
+      "OPTIMAL": 1000,
+      "ACCEPTABLE": 2000,
+      "DEGRADED": 3000,
+      "CRITICAL": 5000
+    },
+    "SERVER_RESOURCES": {
+      "MAX_CONCURRENT_USERS": 100,
+      "MEMORY_USAGE_MB": 500,
+      "CPU_USAGE_PERCENT": 80
+    },
+    "CLIENT_RESOURCES": {
+      "BUNDLE_SIZE_KB": 2000,
+      "RENDER_TIME_MS": 100,
+      "TOTAL_DOM_NODES": 1500
+    }
+  },
+  "failurePoints": [
+    "Maximum concurrent users might be limited to ~0 users"
+  ],
+  "recommendations": [
+    "Improve server capacity to handle target concurrent user load"
+  ],
+  "timestamp": "2025-04-01T13:45:40.848Z"
+}
